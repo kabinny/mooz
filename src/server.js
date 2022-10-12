@@ -16,12 +16,18 @@ const handleListen = () => console.log(`Listening on http://localhost:3000`)
 const server = http.createServer(app)
 const wss = new WebSocket.Server({ server }) // http 와 ws 서버를 동시에 만들기 위해
 
+function onSocketClose() {
+  console.log("Disconnected from the Browser ❌")
+}
+
+function onSocketMessage(message) {
+  console.log(message.toString())
+}
+
 wss.on("connection", (socket) => {
   console.log("Connected to Browser ✅")
-  socket.on("close", () => console.log("Disconnected from the Browser ❌"))
-  socket.on("message", (message) => {
-    console.log(message.toString())
-  })
+  socket.on("close", onSocketClose)
+  socket.on("message", onSocketMessage)
   socket.send("hello!!!")  
 })
 
