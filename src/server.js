@@ -17,7 +17,12 @@ const httpServer = http.createServer(app)
 const wsServer = SocketIO(httpServer)
 
 wsServer.on("connection", (socket) => {
-  console.log(socket)
+  socket.on("enter_room", (msg, done) => {
+    console.log(msg)
+    setTimeout(() => {
+      done()
+    }, 5000)
+  })
 })
 
 // const wss = new WebSocket.Server({ server }) // http 와 ws 서버를 동시에 만들기 위해
